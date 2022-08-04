@@ -1,16 +1,14 @@
 "use strict";
 
 function BinarioADecimal(num) {
-  // tu codigo aca
-  const binary = num.toString().split("");
-  const xreverseBinary = binary.reverse();
+  const binary = num.toString().split(""), //covierte num a array
+    xreverseBinary = binary.reverse();
   let acc = 0;
   const xtransform = binary.map((v, k) => (acc += v * Math.pow(2, k)), acc);
   return acc;
 }
 
 function DecimalABinario(num) {
-  // tu codigo aca
   let acc = "";
   while (num !== 0) {
     acc = (num % 2) + acc;
