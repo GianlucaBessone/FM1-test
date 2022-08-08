@@ -9,12 +9,13 @@ function BinarioADecimal(num) {
 }
 
 function DecimalABinario(num) {
-  let acc = "";
-  while (num !== 0) {
-    acc = (num % 2) + acc;
+  let result = [];
+  while (num > 0) {
+    result.push(num % 2);
     num = Math.floor(num / 2);
   }
-  return acc;
+
+  return result.reverse().join("");
 }
 
 module.exports = {

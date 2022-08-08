@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "jest --collectCoverage=false CS.test.js",
-    "grade": "jest --useStderr --json --outputFile=./tests/result.json"
+    "grade": "jest --useStderr --json --outputFile=./tests/result.json",
+    "start": "nodemon homework.js"
   },
   "devDependencies": {
     "jest": "^27.5.1"
