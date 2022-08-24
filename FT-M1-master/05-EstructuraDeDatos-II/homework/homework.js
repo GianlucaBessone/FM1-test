@@ -1,5 +1,4 @@
 "use strict";
-
 /*
 Implementar la clase LinkedList, definiendo los siguientes métodos:
   - add: agrega un nuevo nodo al final de la lista;
@@ -10,10 +9,64 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this._size = 0;
+  }
+  add(value) {
+    let node = new Node(value),
+      current = this.head;
+    if (!current) this.head = node;
+    else {
+      while (current.next) {
+        current = current.next;
+      }
 
-function LinkedList() {}
+      current.next = node;
+    }
+    this._size++;
+  }
 
-function Node(value) {}
+  remove() {
+    let current = this.head,
+      removed;
+    if (!this.head) return null;
+
+    if (!current.next) {
+      removed = current.value;
+      this.head = null;
+    } else {
+      while (current.next.next) {
+        current = current.next;
+      }
+      removed = current.next.value;
+      current.next = null;
+    }
+
+    this._size--;
+    return removed;
+  }
+
+  search(value) {
+    if (!this.head) return null;
+    let current = this.head;
+    while (current) {
+      if (current.value === value) return current.value;
+      else if (typeof value === "function") {
+        if (value(current.value)) return current.value;
+      }
+      current = current.next;
+    }
+
+    return null;
+  }
+}
+
+function Node(value) {
+  this.value = value;
+  this.next = null;
+}
 
 /*
 Implementar la clase HashTable.
@@ -30,7 +83,39 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() {
+  this.buckets = [];
+  this.numBuckets = 35;
+}
+//hash --> Calcula la posicion del valor en el array
+HashTable.prototype.hash = function (key) {
+  //chris
+  let sum = 0;
+  for (let i = 0; i < key.length; i++) {
+    sum += key.charCodeAt(i);
+  }
+  return sum % this.numBuckets; //80 % 35 = 10
+};
+
+HashTable.prototype.set = function (key, value) {
+  if (typeof key !== "string") throw new TypeError("Keys must be strings");
+  let posArr = this.hash(key);
+  //si la posición en el array está vacia crea un objeto
+  if (this.buckets[posArr] === undefined) {
+    this.buckets[posArr] = {};
+  }
+  this.buckets[posArr][key] = value;
+};
+
+HashTable.prototype.get = function (key) {
+  let posArr = this.hash(key);
+  return this.buckets[posArr][key];
+};
+
+HashTable.prototype.hasKey = function (key) {
+  let posArr = this.hash(key);
+  return this.buckets[posArr].hasOwnProperty(key);
+};
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
