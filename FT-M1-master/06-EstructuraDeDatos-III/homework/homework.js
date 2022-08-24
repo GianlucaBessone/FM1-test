@@ -59,8 +59,42 @@ BinarySearchTree.prototype.contains = function (value) {
   }
 };
 
-BinarySearchTree.prototype.depthFirstForEach = function () {};
-BinarySearchTree.prototype.breadthFirstForEach = function () {};
+BinarySearchTree.prototype.depthFirstForEach = function (cb, orden) {
+  //post-order
+  if (orden === "post-order") {
+    //izq -> derecha -> root
+    if (this.left !== null) this.left.depthFirstForEach(cb, orden);
+    if (this.right !== null) this.right.depthFirstForEach(cb, orden);
+    cb(this.value);
+  }
+  //pre-order
+  else if (orden === "pre-order") {
+    //root -> izq -> der
+    cb(this.value);
+    if (this.left !== null) this.left.depthFirstForEach(cb, orden);
+    if (this.right !== null) this.right.depthFirstForEach(cb, orden);
+  }
+  //in-order
+  else {
+    //izq -> root -> derecha
+    if (this.left !== null) this.left.depthFirstForEach(cb, orden);
+    cb(this.value);
+    if (this.right !== null) this.right.depthFirstForEach(cb, orden);
+  }
+};
+BinarySearchTree.prototype.breadthFirstForEach = function (cb, queue = []) {
+  //guarda lo que hay a la izquierda
+  if (this.left !== null) queue.push(this.left);
+  //guarda lo que hay a la derecha
+  if (this.right !== null) queue.push(this.right);
+  //ejecuta root
+  cb(this.value);
+
+  //revisar si hay elementos en cola
+  if (queue.length > 0) {
+    queue.shift().breadthFirstForEach(cb, queue);
+  }
+};
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
