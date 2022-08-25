@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "jest --collectCoverage=false AlgoritmosI.test.js",
-    "grade": "jest --useStderr --json --outputFile=./tests/result.json"
+    "grade": "jest --useStderr --json --outputFile=./tests/result.json",
+    "start": "nodemon"
   },
   "devDependencies": {
     "jest": "^27.5.1"
